@@ -8,8 +8,8 @@ class BookingStatus(models.TextChoices):
     DECLINED = 'declined', 'Declined'
 
 class Booking(models.Model):
-    borrower = models.ForeignKey(User, on_delete=models.CASCADE)
-    tool = models.ForeignKey(Tool, on_delete=models.CASCADE)
+    borrower = models.ForeignKey(User, on_delete=models.CASCADE, related_name='bookings_made')
+    tool = models.ForeignKey(Tool, on_delete=models.CASCADE, related_name='bookings')
     start_date = models.DateField()
     end_date = models.DateField()
     status = models.CharField(
