@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+
+{%  block content %}
+    <header class="bg-dark py-5">
+            <div class="container px-4 px-lg-5 my-5">
+                <div class="text-center text-white">
+                    <h1 class="display-4 fw-bolder">About project</h1>
+                    <p class="lead fw-normal text-white-50 mb-0">:)</p>
+                </div>
+            </div>
+        </header>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f9f9f9;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 0 20px;
+        }
+
+        p {
+            line-height: 1.8;
+            font-size: 1.1em;
+            margin-bottom: 20px;
+        }
+
+        .highlight {
+            color: #1abc9c;
+            font-weight: bold;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                margin: 20px auto;
+            }
+
+            p {
+                font-size: 1em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <p>
+            <span class="highlight">BikeToolShare</span> is a community-driven platform created to connect cyclists who want to share, lend, or request tools for bicycle repair and maintenance.
+            Whether you're missing a specific wrench, need a chain tool for a quick fix, or simply want to offer your equipment to others nearby — this is the space to do it.
+        </p>
+        <p>
+            Our mission is to promote sustainability, collaboration, and self-sufficiency among cycling enthusiasts.
+            Instead of purchasing tools that are rarely used, users can borrow from others in their neighborhood or offer their own tools for temporary use.
+            It’s not just about saving money — it’s about building trust and community.
+        </p>
+        <p>
+            Users can browse a catalog of tools, filter them by category, view detailed descriptions and images, and request to borrow items directly from other members.
+            Every user has a profile with location-based information to simplify meeting up and sharing.
+        </p>
+        <p>
+            We believe that cycling is not only a means of transport, but a lifestyle — and maintaining your bike shouldn't be a barrier.
+            With <span class="highlight">BikeToolShare</span>, we hope to make bike maintenance more accessible and social for everyone.
+        </p>
+    </div>
+</body>
+{% endblock %}
