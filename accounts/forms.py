@@ -2,6 +2,9 @@ from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from django import forms
 
+from accounts.models import UserProfile
+
+
 class RegisterForm(UserCreationForm):
 	email = forms.EmailField(label="", required=True, widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Email Address'}))
 	first_name = forms.CharField(label="", required=False, max_length=100, widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'First Name'}))
@@ -28,3 +31,16 @@ class RegisterForm(UserCreationForm):
 		self.fields['password2'].widget.attrs['placeholder'] = 'Confirm Password'
 		self.fields['password2'].label = ''
 		self.fields['password2'].help_text = '<span class="form-text text-muted"><small>Enter the same password as before, for verification.</small></span>'
+
+class UserInfoForm(forms.ModelForm):
+	country = forms.CharField(label="", initial='Poland', required=False, widget=forms.TextInput(attrs={'readonly':'readonly', 'class':'form-control'}))
+	city = forms.CharField(label="", widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'City'}))
+	district = forms.CharField(label="", widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'District'}))
+	address = forms.CharField(label="", required=False, widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Address (e.g. Sienkiewicza 13/56)'}))
+	zipcode = forms.CharField(label="", required=False, widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Zipcode xx-xxx'}))
+	phone = forms.CharField(label="", required=False, widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Phone number (9 numbers)'}))
+	profile_picture = forms.ImageField(required=False, widget=forms.FileInput(attrs={'class': 'form-control'}))
+
+	class Meta:
+		model = UserProfile
+		fields = ['country', 'city', 'district', 'address', 'zipcode', 'phone', 'profile_picture']
