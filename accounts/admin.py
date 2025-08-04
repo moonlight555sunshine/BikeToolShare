@@ -12,8 +12,8 @@ class UserAdmin(admin.ModelAdmin):
     field = ["username", "email", "first_name", "last_name"]
     inlines = [UserProfileInline]
 
-# # unregister the old way
-# admin.site.unregister(User)
-#
-# # register the new way
-# admin.site.register(User, UserAdmin)
+# unregister the old way
+admin.site.unregister(User)
+
+# register the new way
+admin.site.register(User, UserAdmin)
