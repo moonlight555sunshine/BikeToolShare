@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{%  block content %}
+    <body>
+        <!-- Product section-->
+        <section class="py-5">
+            <div class="container px-4 px-lg-5 my-5">
+                <div class="row gx-4 gx-lg-5 align-items-center">
+                    <div class="col-md-6"><img class="card-img-top mb-5 mb-md-0" src="{{ tool.image.url }}" alt="..." /></div>
+                    <div class="col-md-6">
+                        <h1 class="display-5 fw-bolder">{{ tool.name }}</h1>
+                        <div class="fs-5 mb-5">
+                            <span>Owner: {{ tool.owner }}</span>
+                            <br>
+                            <span>Location: {{ user_profile.city }}, {{ user_profile.district }}</span>
+                        </div>
+                        <div class="fs-5 mb-3">
+                            <span>Categories: </span>
+                            {% for category in categories %}
+                                <span>{{ category.name }}</span>
+                            {% endfor %}
+                        </div>
+                        <p class="lead">{{ tool.description }}</p>
+                        <div class="d-flex">
+                            <button class="btn btn-outline-dark mt-3" type="button">
+                                Book
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+{% endblock %}
+

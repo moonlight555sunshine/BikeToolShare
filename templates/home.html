@@ -5,8 +5,8 @@
         <header class="bg-dark py-5">
             <div class="container px-4 px-lg-5 my-5">
                 <div class="text-center text-white">
-                    <h1 class="display-4 fw-bolder">Choose necessary tool</h1>
-                    <p class="lead fw-normal text-white-50 mb-0">or share with other</p>
+                    <h1 class="display-4 fw-bolder">{{ title }}</h1>
+                    <p class="lead fw-normal text-white-50 mb-0">{{ subtitle }}</p>
                 </div>
             </div>
         </header>
@@ -44,7 +44,7 @@
                 <div class="card-body">
                   <h5 class="card-title">{{ category.name }}</h5>
 {#                  <p class="card-text">{{ category.description|default:"Категория инструментов" }}</p>#}
-                  <a href="{% url 'home' %}?category={{ category.slug }}" class="btn btn-outline-dark">View</a>
+                  <a href="{% url 'category' category.name|slugify %}" class="btn btn-outline-dark">View</a>
                 </div>
               </div>
             </div>
@@ -67,24 +67,26 @@
             <div class="container px-4 px-lg-5 mt-5">
                 <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
                     {% for tool in latest_tools %}
-                    <div class="col mb-5">
-                        <div class="card h-100">
-                            <!-- Product image-->
-                            <img class="card-img-top" src="{{ tool.image.url }}" alt="..." />
-                            <!-- Product details-->
-                            <div class="card-body p-4">
-                                <div class="text-center">
-                                    <!-- Product name-->
-                                    <h5 class="fw-bolder">{{ tool.name }}</h5>
 
+                        <div class="col mb-5">
+                            <div class="card h-100">
+                                <!-- Product image-->
+                                <img class="card-img-top" src="{{ tool.image.url }}" alt="..." />
+                                <!-- Product details-->
+                                <div class="card-body p-4">
+                                    <div class="text-center">
+                                        <!-- Product name-->
+                                        <h5 class="fw-bolder">{{ tool.name }}</h5>
+
+                                    </div>
+                                </div>
+                                <!-- Product actions-->
+                                <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                                    <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="{% url 'tool' tool.id %}">View tool</a></div>
                                 </div>
                             </div>
-                            <!-- Product actions-->
-                            <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                                <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">View options</a></div>
-                            </div>
                         </div>
-                    </div>
+
                     {% endfor %}
 
 
@@ -145,7 +147,7 @@
 {#                    </div>#}
                 </div>
             <div class="d-flex justify-content-end">
-                <a href="{% url 'home' %}" class="btn btn-dark">View all tools</a>
+                <a href="{% url 'tools' %}" class="btn btn-dark">View all tools</a>
             </div>
             </div>
         </section>
