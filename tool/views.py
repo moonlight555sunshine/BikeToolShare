@@ -26,6 +26,18 @@ class ToolsView(View):
             'title': 'Choose necessary tool',
             'subtitle': 'or share with other',
         })
+    def post(self, request):
+        searched = request.POST.get('searched')
+        search_tools = Tool.objects.filter(name__icontains=searched)
+        if not search_tools:
+            messages.error(request, 'Nothing was found')
+            return redirect('home')
+        else:
+            return render(request, 'all_tools.html', {
+                'tools': search_tools,
+                'title': 'Choose necessary tool',
+                'subtitle': 'or share with other',
+            })
 
 class ToolView(View):
     def get(self, request, pk):
@@ -84,4 +96,4 @@ class AddToolView(View):
                 })
         else:
             messages.error(request, 'You are not logged in')
-            return redirect('home')
+            return redirect('login')
