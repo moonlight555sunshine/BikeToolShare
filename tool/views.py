@@ -1,3 +1,5 @@
+from re import search
+
 from django.shortcuts import render, redirect
 from django.views import View
 from django.contrib import messages
@@ -21,11 +23,26 @@ class HomeView(View):
 class ToolsView(View):
     def get(self, request):
         tools = Tool.objects.filter(is_available=True)
+
+        city = request.GET.get('city')
+        district = request.GET.get('district')
+        if city:
+            tools = tools.filter(owner__profile__city__icontains=city)
+        if district:
+            tools = tools.filter(owner__profile__district__icontains=district)
+
+        sort = request.GET.get('sort')
+        if sort == 'newest':
+            tools = tools.order_by('-created_at')
+        elif sort == 'oldest':
+            tools = tools.order_by('created_at')
+
         return render(request, 'all_tools.html', {
             'tools': tools,
             'title': 'Choose necessary tool',
             'subtitle': 'or share with other',
         })
+
     def post(self, request):
         searched = request.POST.get('searched')
         search_tools = Tool.objects.filter(name__icontains=searched)
@@ -58,6 +75,20 @@ class CategoryView(View):
         try:
             category = Category.objects.get(name__iexact=foo)
             tools = category.tools.all()
+
+            city = request.GET.get('city')
+            district = request.GET.get('district')
+            if city:
+                tools = tools.filter(owner__profile__city__icontains=city)
+            if district:
+                tools = tools.filter(owner__profile__district__icontains=district)
+
+            sort = request.GET.get('sort')
+            if sort == 'newest':
+                tools = tools.order_by('-created_at')
+            elif sort == 'oldest':
+                tools = tools.order_by('created_at')
+
             return render(request, 'all_tools.html', {
                 'tools': tools,
                 'title': category.name,
@@ -69,31 +100,31 @@ class CategoryView(View):
 
 class AddToolView(View):
     def get(self, request):
-        form = ToolForm()
-        return render(request, 'form_page.html', {
-            'form': form,
-            'title': 'New tool',
-            'subtitle': 'add your tool',
-            'button_text': 'Add',
-        })
-    def post(self, request):
         if request.user.is_authenticated:
-            form = ToolForm(request.POST, request.FILES)
-            if form.is_valid():
-                tool = form.save(commit=False)
-                tool.owner = request.user
-                tool.save()
-                form.save_m2m()
-                messages.success(request, 'Your tool has been added')
-                return redirect('home')
-            else:
-                messages.error(request, 'Please correct the error below.')
-                return render(request, 'form_page.html', {
-                    'form': form,
-                    'title': 'New tool',
-                    'subtitle': 'add your tool',
-                    'button_text': 'Add',
-                })
+            form = ToolForm()
+            return render(request, 'form_page.html', {
+                'form': form,
+                'title': 'New tool',
+                'subtitle': 'add your tool',
+                'button_text': 'Add',
+            })
         else:
             messages.error(request, 'You are not logged in')
             return redirect('login')
+    def post(self, request):
+        form = ToolForm(request.POST, request.FILES)
+        if form.is_valid():
+            tool = form.save(commit=False)
+            tool.owner = request.user
+            tool.save()
+            form.save_m2m()
+            messages.success(request, 'Your tool has been added')
+            return redirect('home')
+        else:
+            messages.error(request, 'Please correct the error below.')
+            return render(request, 'form_page.html', {
+                'form': form,
+                'title': 'New tool',
+                'subtitle': 'add your tool',
+                'button_text': 'Add',
+            })

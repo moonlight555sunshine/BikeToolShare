@@ -15,7 +15,33 @@
         <section class="py-5">
 
             <div class="container px-4 px-lg-5 mt-5">
-                <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+
+                <form method="get" class="d-flex flex-wrap gap-2 align-items-end">
+                    <div>
+                        <input type="text" name="city" id="city" class="form-control" placeholder="City"
+                               value="{{ request.GET.city }}">
+                    </div>
+
+                    <div>
+                        <input type="text" name="district" id="district" class="form-control" placeholder="District"
+                               value="{{ request.GET.district }}">
+                    </div>
+
+                    <div>
+                        <select name="sort" id="sort" class="form-select">
+                            <option value="">-- Sort by --</option>
+                            <option value="newest" {% if request.GET.sort == 'newest' %}selected{% endif %}>Newest first</option>
+                            <option value="oldest" {% if request.GET.sort == 'oldest' %}selected{% endif %}>Oldest first</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <button type="submit" class="btn btn-dark">Apply</button>
+                    </div>
+                </form>
+            <br/>
+
+                <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-lg-start">
                     {% for tool in tools %}
 
                         <div class="col mb-5">
