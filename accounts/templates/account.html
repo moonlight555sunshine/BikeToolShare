@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{%  block content %}
+        <!-- Header-->
+        <header class="bg-dark py-5">
+            <div class="container px-4 px-lg-5 my-5">
+                <div class="text-center text-white">
+                    <h1 class="display-4 fw-bolder">{{ title }}</h1>
+                    <p class="lead fw-normal text-white-50 mb-0">{{ subtitle }}</p>
+                </div>
+            </div>
+        </header>
+        <img src="{{ current_user_profile.profile_picture.url }}" alt="Profile photo" class="img-thumbnail" width="250">
+{% endblock %}

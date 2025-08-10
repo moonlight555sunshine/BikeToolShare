@@ -97,4 +97,17 @@ class UpdateInfoView(View):
                 })
         else:
             messages.error(request, 'You are not logged in')
-            return redirect('home')
+            return redirect('login')
+
+class AccountView(View):
+    def get(self, request):
+        if request.user.is_authenticated:
+            current_user_profile = UserProfile.objects.get(user_id=request.user.id)
+            return render(request, "account.html", {
+                'title': 'Your account',
+                'subtitle': '',
+                'current_user_profile': current_user_profile,
+            })
+        else:
+            messages.error(request, 'You are not logged in')
+            return redirect('login')

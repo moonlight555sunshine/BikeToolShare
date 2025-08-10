@@ -43,7 +43,6 @@
               <div class="card h-100 text-center">
                 <div class="card-body">
                   <h5 class="card-title">{{ category.name }}</h5>
-{#                  <p class="card-text">{{ category.description|default:"Категория инструментов" }}</p>#}
                   <a href="{% url 'category' category.name|slugify %}" class="btn btn-outline-dark">View</a>
                 </div>
               </div>
@@ -51,15 +50,6 @@
             {% endfor %}
           </div>
         </section>
-
-
-
-
-
-
-
-
-
 
         <!-- Section-->
         <section class="py-5">
