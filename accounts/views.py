@@ -69,15 +69,19 @@ class LogoutView(View):
 
 class UpdateInfoView(View):
     def get(self, request):
-        current_user = UserProfile.objects.get(user_id=request.user.id)
-        form = UserInfoForm(request.POST or None, instance=current_user)
-        return render(request, 'form_page.html', {
-            'form': form,
-            'title': 'Update Info',
-            'subtitle': 'Update your info',
-            'button_text': 'Update',
-            'profile_picture': current_user.profile_picture.url if current_user.profile_picture else None
-        })
+        if request.user.is_authenticated:
+            current_user = UserProfile.objects.get(user_id=request.user.id)
+            form = UserInfoForm(request.POST or None, instance=current_user)
+            return render(request, 'form_page.html', {
+                'form': form,
+                'title': 'Update Info',
+                'subtitle': 'Update your info',
+                'button_text': 'Update',
+                'profile_picture': current_user.profile_picture.url if current_user.profile_picture else None
+            })
+        else:
+            messages.error(request, 'You are not logged in')
+            return redirect('login')
     def post(self, request):
         if request.user.is_authenticated:
             current_user = UserProfile.objects.get(user_id=request.user.id)
