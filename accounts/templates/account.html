@@ -10,5 +10,63 @@
                 </div>
             </div>
         </header>
-        <img src="{{ current_user_profile.profile_picture.url }}" alt="Profile photo" class="img-thumbnail" width="250">
+        <section class="py-5">
+    <div class="container px-4 px-lg-5">
+        <div class="row align-items-start">
+
+            <div class="col-md-3 text-center mb-4 mb-md-0">
+                <img src="{{ current_user_profile.profile_picture.url }}"
+                     alt="Profile photo"
+                     class="img-fluid shadow-sm"
+                     style="width: 200px; height: 200px; object-fit: cover;">
+            </div>
+
+
+            <div class="col-md-9">
+
+                <h3 class="fw-bold mb-1">
+                    {{ current_user_profile.user.first_name }} {{ current_user_profile.user.last_name }}
+                </h3>
+                <p class="text-muted mb-3">{{ current_user_profile.user.email }}</p>
+
+
+                <hr class="mt-2 mb-4">
+
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <p><strong>Country:</strong> {{ current_user_profile.country }}</p>
+                        <p><strong>City:</strong> {{ current_user_profile.city }}</p>
+                        <p><strong>District:</strong> {{ current_user_profile.district }}</p>
+                    </div>
+                    <div class="col-md-6">
+                        <p><strong>Address:</strong> {{ current_user_profile.address }}</p>
+                        <p><strong>Phone:</strong> {{ current_user_profile.phone }}</p>
+                        <p><strong>Zipcode:</strong> {{ current_user_profile.zipcode }}</p>
+                    </div>
+                </div>
+
+
+                <div class="mt-4">
+                    <a class="btn btn-outline-dark" href="{% url 'update_info' %}">Update info</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{#        <img src="{{ current_user_profile.profile_picture.url }}" alt="Profile photo" class="img-thumbnail" width="250">#}
+{#        {{ current_user_profile.user.first_name }} {{ current_user_profile.user.last_name }}#}
+{#        {{ current_user_profile.user.email }}#}
+{#    <br>#}
+{#    {{ current_user_profile.country }}#}
+{#    <br>#}
+{#    {{ current_user_profile.city }}#}
+{#    {{ current_user_profile.district }}#}
+{#    {{ current_user_profile.address }}#}
+{#    {{ current_user_profile.phone }}#}
+{#    {{ current_user_profile.zipcode }}#}
+{##}
+{#    <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">#}
+{#        <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="{% url 'update_info'%}">Update info</a></div>#}
+{#    </div>#}
 {% endblock %}
