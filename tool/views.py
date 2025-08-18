@@ -112,19 +112,23 @@ class AddToolView(View):
             messages.error(request, 'You are not logged in')
             return redirect('login')
     def post(self, request):
-        form = ToolForm(request.POST, request.FILES)
-        if form.is_valid():
-            tool = form.save(commit=False)
-            tool.owner = request.user
-            tool.save()
-            form.save_m2m()
-            messages.success(request, 'Your tool has been added')
-            return redirect('home')
+        if request.user.is_authenticated:
+            form = ToolForm(request.POST, request.FILES)
+            if form.is_valid():
+                tool = form.save(commit=False)
+                tool.owner = request.user
+                tool.save()
+                form.save_m2m()
+                messages.success(request, 'Your tool has been added')
+                return redirect('home')
+            else:
+                messages.error(request, 'Please correct the error below.')
+                return render(request, 'form_page.html', {
+                    'form': form,
+                    'title': 'New tool',
+                    'subtitle': 'add your tool',
+                    'button_text': 'Add',
+                })
         else:
-            messages.error(request, 'Please correct the error below.')
-            return render(request, 'form_page.html', {
-                'form': form,
-                'title': 'New tool',
-                'subtitle': 'add your tool',
-                'button_text': 'Add',
-            })
+            messages.error(request, 'You are not logged in')
+            return redirect('login')
