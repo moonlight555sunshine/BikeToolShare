@@ -13,7 +13,7 @@ class UserProfile(models.Model):
     address = models.CharField(max_length=50, default='', blank=True)
     zipcode = models.CharField(max_length=12, default='', blank=True)
     phone = PhoneNumberField(blank=True, region='PL')
-    profile_picture = models.ImageField(upload_to='uploads/profile/', blank=True, null=True)
+    profile_picture = models.ImageField(upload_to='uploads/profile/', blank=True, null=True, default="uploads/profile/default-avatar.png" )
 
     def __str__(self):
         return self.user.username
