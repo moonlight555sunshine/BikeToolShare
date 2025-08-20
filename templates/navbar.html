@@ -19,6 +19,10 @@
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Tools</a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                {% if user.is_authenticated %}
+                                <li><a class="dropdown-item" href="{% url 'my-tools' %}">My Tools</a></li>
+                                <li><hr class="dropdown-divider" /></li>
+                                {% endif %}
                                 <li><a class="dropdown-item" href="{% url 'tools' %}">All Tools</a></li>
                                 <li><hr class="dropdown-divider" /></li>
                                 <li><a class="dropdown-item" href="{% url 'category' 'wrenches'%}">Wrenches</a></li>

@@ -77,7 +77,7 @@ class UpdateInfoView(View):
                 'title': 'Update Info',
                 'subtitle': 'Update your info',
                 'button_text': 'Update',
-                'profile_picture': current_user.profile_picture.url if current_user.profile_picture else None
+                'picture': current_user.profile_picture.url if current_user.profile_picture else None
             })
         else:
             messages.error(request, 'You are not logged in')
@@ -97,7 +97,7 @@ class UpdateInfoView(View):
                     'title': 'Update Info',
                     'subtitle': 'Update your info',
                     'button_text': 'Update',
-                    'profile_picture': current_user.profile_picture.url if current_user.profile_picture else None
+                    'picture': current_user.profile_picture.url if current_user.profile_picture else None
                 })
         else:
             messages.error(request, 'You are not logged in')

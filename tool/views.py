@@ -1,6 +1,7 @@
 from re import search
 
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
+from django.urls import reverse
 from django.views import View
 from django.contrib import messages
 
@@ -132,3 +133,54 @@ class AddToolView(View):
         else:
             messages.error(request, 'You are not logged in')
             return redirect('login')
+
+class UserToolsView(View):
+    def get(self, request):
+        if request.user.is_authenticated:
+            tools = Tool.objects.filter(owner=request.user)
+            return render(request, 'user_tools.html', {
+                'tools': tools,
+                'title': 'My tools',
+                'subtitle': 'share with other',
+            })
+        else:
+            messages.error(request, 'You are not logged in')
+            return redirect('login')
+
+    def post(self, request, pk):
+        tool = get_object_or_404(Tool, id=pk, owner=request.user)
+        action = request.POST.get('action')
+        if action == 'delete':
+            tool.delete()
+            messages.success(request, 'Tool has been deleted.')
+            return redirect('my-tools')
+        elif action == 'update':
+            form = ToolForm(instance=tool)
+            return render(request, 'form_page.html', {
+                'form': form,
+                'title': 'Update tool',
+                'subtitle': 'Update tool info',
+                'button_text': 'Update',
+                'tool': tool,
+                'picture': tool.image.url if tool.image else None,
+                'action_url': reverse('tool-action', args=[tool.id]),
+            })
+        elif action == 'save':
+            form = ToolForm(request.POST, request.FILES, instance=tool)
+            if form.is_valid():
+                form.save()
+                messages.success(request, 'Tool info has been updated')
+                return redirect('my-tools')
+            else:
+                messages.error(request, 'Please correct the error below.')
+                return render(request, 'form_page.html', {
+                    'form': form,
+                    'title': 'Update tool',
+                    'subtitle': 'Update tool info',
+                    'button_text': 'Update',
+                    'tool': tool,
+                    'picture': tool.image.url if tool.image else None,
+                    'action_url': reverse('tool-action', args=[tool.id]),
+                })
+        messages.error(request, 'Unknown action')
+        return redirect('my-tools')
