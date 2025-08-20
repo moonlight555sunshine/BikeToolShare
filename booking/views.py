@@ -19,15 +19,19 @@ class OwnerBookingsView(View):
             return redirect('login')
     def post(self, request, booking_id):
         booking = get_object_or_404(Booking, id=booking_id, tool__owner=request.user)
+        tool = Tool.objects.get(id=booking.tool_id)
         action = request.POST.get('action')
         if action == 'approve':
             booking.status = 'approved'
+            tool.is_available = False
             messages.success(request, f'Request for {booking.tool.name} approved!')
         elif action == 'decline':
             booking.status = 'declined'
+            tool.is_available = True
             messages.warning(request, f'Request for {booking.tool.name} declined.')
         booking.is_seen_by_borrower = False
         booking.save()
+        tool.save()
         return redirect('owner_bookings')
 
 class BorrowerBookingsView(View):
