@@ -147,14 +147,10 @@ class UserToolsView(View):
             messages.error(request, 'You are not logged in')
             return redirect('login')
 
-    def post(self, request, pk):
-        tool = get_object_or_404(Tool, id=pk, owner=request.user)
-        action = request.POST.get('action')
-        if action == 'delete':
-            tool.delete()
-            messages.success(request, 'Tool has been deleted.')
-            return redirect('my-tools')
-        elif action == 'update':
+class ToolUpdateView(View):
+    def get(self, request, pk):
+        if request.user.is_authenticated:
+            tool = get_object_or_404(Tool, pk=pk, owner=request.user)
             form = ToolForm(instance=tool)
             return render(request, 'form_page.html', {
                 'form': form,
@@ -163,9 +159,14 @@ class UserToolsView(View):
                 'button_text': 'Update',
                 'tool': tool,
                 'picture': tool.image.url if tool.image else None,
-                'action_url': reverse('tool-action', args=[tool.id]),
             })
-        elif action == 'save':
+        else:
+            messages.error(request, 'You are not logged in')
+            return redirect('login')
+
+    def post(self, request, pk):
+        if request.user.is_authenticated:
+            tool = get_object_or_404(Tool, pk=pk, owner=request.user)
             form = ToolForm(request.POST, request.FILES, instance=tool)
             if form.is_valid():
                 form.save()
@@ -180,7 +181,18 @@ class UserToolsView(View):
                     'button_text': 'Update',
                     'tool': tool,
                     'picture': tool.image.url if tool.image else None,
-                    'action_url': reverse('tool-action', args=[tool.id]),
                 })
-        messages.error(request, 'Unknown action')
-        return redirect('my-tools')
+        else:
+            messages.error(request, 'You are not logged in')
+            return redirect('login')
+
+class ToolDeleteView(View):
+    def post(self, request, pk):
+        if request.user.is_authenticated:
+            tool = get_object_or_404(Tool, pk=pk, owner=request.user)
+            tool.delete()
+            messages.success(request, 'Tool info has been deleted')
+            return redirect('my-tools')
+        else:
+            messages.error(request, 'You are not logged in')
+            return redirect('login')
