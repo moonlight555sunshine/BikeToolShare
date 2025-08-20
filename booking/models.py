@@ -19,6 +19,9 @@ class Booking(models.Model):
     )
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    is_seen_by_owner = models.BooleanField(default=False)
+    is_seen_by_borrower = models.BooleanField(default=True)
+    comment = models.TextField(blank=True, default='')
 
     def __str__(self):
         return f'{self.borrower.username} - {self.tool.name} ({self.status})'

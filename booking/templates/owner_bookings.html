@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<header class="bg-dark py-5">
+  <div class="container px-4 px-lg-5 my-5">
+    <div class="text-center text-white">
+      <h1 class="display-4 fw-bolder">{{ title }}</h1>
+      <p class="lead fw-normal text-white-50 mb-0">{{ subtitle }}</p>
+    </div>
+  </div>
+</header>
+
+<section class="py-5">
+  <div class="container px-4 px-lg-5 mt-5">
+    <div class="row gx-4 gx-lg-5 row-cols-1 row-cols-md-2 row-cols-xl-3 justify-content-center">
+
+      {% for booking in bookings %}
+      <div class="col mb-5">
+        <div class="card h-100">
+
+          <img class="card-img-top" src="{{ booking.tool.image.url }}" alt="{{ booking.tool.name }}">
+
+          <div class="card-body p-4">
+            <div class="text-center">
+              <h5 class="fw-bolder">{{ booking.tool.name }}</h5>
+              <p>Borrower: {{ booking.borrower.username }}</p>
+              <p>{{ booking.start_date }} → {{ booking.end_date }}</p>
+                {% if booking.comment %}
+                <p>Comment: {{ booking.comment }}</p>
+                {% endif %}
+              <p>Status: <strong>{{ booking.status }}</strong></p>
+            </div>
+          </div>
+
+          <div class="card-footer d-flex justify-content-center gap-2">
+            <form method="post" action="{% url 'owner_booking_action' booking.id %}">
+              {% csrf_token %}
+              <button type="submit" name="action" value="approve" class="btn btn-success">Approve</button>
+              <button type="submit" name="action" value="decline" class="btn btn-danger">Decline</button>
+            </form>
+          </div>
+        </div>
+      </div>
+      {% empty %}
+      <p class="text-center">No booking requests yet.</p>
+      {% endfor %}
+
+    </div>
+  </div>
+</section>
+{% endblock %}

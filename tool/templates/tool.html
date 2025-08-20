@@ -21,11 +21,7 @@
                             {% endfor %}
                         </div>
                         <p class="lead">{{ tool.description }}</p>
-                        <div class="d-flex">
-                            <button class="btn btn-outline-dark mt-3" type="button">
-                                Book
-                            </button>
-                        </div>
+                        <a href="{% url 'book_tool' tool.id %}" class="btn btn-outline-dark mt-3">Book</a>
                     </div>
                 </div>
             </div>
