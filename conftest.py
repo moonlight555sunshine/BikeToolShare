@@ -3,6 +3,8 @@ from PIL import Image
 import io
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.contrib.auth.models import User
+
+from booking.models import Booking
 from tool.models import Tool, Category
 
 @pytest.fixture
@@ -41,6 +43,13 @@ def tool(user, category, valid_image):
     return tool
 
 @pytest.fixture
+def tool_owned_by_other(db, category, valid_image):
+    other_user = User.objects.create_user(username="other_user", password="pass", email="other@test.com")
+    tool = Tool.objects.create(name="OtherTool", owner=other_user, image=valid_image)
+    tool.category.add(category)
+    return tool
+
+@pytest.fixture
 def multiple_tools(db, category, valid_image):
 
     user1 = User.objects.create_user(username="user1", password="pass")
@@ -64,3 +73,23 @@ def multiple_tools(db, category, valid_image):
 def client_logged(client, user):
     client.login(username="testuser", password="testpswd")
     return client
+
+@pytest.fixture
+def booking_request(user, tool_owned_by_other):
+    return Booking.objects.create(
+        tool=tool_owned_by_other,
+        borrower=user,
+        start_date="2025-01-01",
+        end_date="2025-01-02",
+        status="pending"
+    )
+
+@pytest.fixture
+def booking_for_user_tool(user, tool):
+    return Booking.objects.create(
+        tool=tool,
+        borrower=User.objects.create_user(username="borrower", password="pass"),
+        start_date="2025-01-01",
+        end_date= "2025-01-02",
+        status="pending"
+    )
