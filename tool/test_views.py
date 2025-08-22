@@ -6,6 +6,7 @@ import pytest
 from django.urls import reverse
 from tool.models import Tool
 
+@pytest.mark.django_db
 def test_homeview_context(client, tool, category):
     url = reverse("home")
     response = client.get(url)
@@ -13,6 +14,7 @@ def test_homeview_context(client, tool, category):
     assert tool in response.context["latest_tools"]
     assert category in response.context["categories"]
 
+@pytest.mark.django_db
 def test_homeview_html(client, tool):
     url = reverse("home")
     response = client.get(url)
@@ -20,6 +22,7 @@ def test_homeview_html(client, tool):
     assert tool.name in content
     assert "Choose necessary tool" in content
 
+@pytest.mark.django_db
 def test_toolsview_filters_by_city(client, multiple_tools):
     url = reverse("tools") + "?city=Warsaw"
     response = client.get(url)
@@ -31,6 +34,7 @@ def test_toolsview_filters_by_city(client, multiple_tools):
     assert "Pump" in content
     assert "Tire levers" not in content
 
+@pytest.mark.django_db
 def test_toolsview_filters_by_district(client, multiple_tools):
     url = reverse("tools") + "?district=Ochota"
     response = client.get(url)
@@ -42,6 +46,7 @@ def test_toolsview_filters_by_district(client, multiple_tools):
     assert "Pump" in content
     assert "Tire levers" not in content
 
+@pytest.mark.django_db
 def test_toolsview_post_search(client, multiple_tools):
     response = client.post(reverse("tools"), {"searched": "levers"})
     assert response.status_code == 200
@@ -52,6 +57,7 @@ def test_toolsview_post_search(client, multiple_tools):
     assert multiple_tools[1] in tools
     assert multiple_tools[0] not in tools
 
+@pytest.mark.django_db
 def test_sorting_newest_oldest(client, multiple_tools):
     url_newest = reverse("tools") + "?sort=newest"
     response_newest = client.get(url_newest)
@@ -65,24 +71,28 @@ def test_sorting_newest_oldest(client, multiple_tools):
 
     assert content_oldest.index(multiple_tools[0].name) < content_oldest.index(multiple_tools[1].name)
 
+@pytest.mark.django_db
 def test_toolview_context(client, tool):
     response = client.get(reverse("tool", args=[tool.id]))
     assert response.status_code == 200
     assert response.context["tool"] == tool
     assert tool.owner.profile == response.context["user_profile"]
 
+@pytest.mark.django_db
 def test_toolview_html(client, tool):
     response = client.get(reverse("tool", args=[tool.id]))
     content = response.content.decode()
     assert tool.name in content
     assert tool.description in content
 
+@pytest.mark.django_db
 def test_categoryview_filters(client, multiple_tools, category):
     response = client.get(reverse("category", args=[category.name]) + "?district=Ochota")
     tools = response.context["tools"]
     assert multiple_tools[0] in tools
     assert multiple_tools[1] not in tools
 
+@pytest.mark.django_db
 def test_categoryview_invalid_category(client):
     response = client.get(reverse("category", args=["Invalid"]))
     assert response.status_code == 302
