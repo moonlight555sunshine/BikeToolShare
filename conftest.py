@@ -15,7 +15,7 @@ def valid_image():
 
 @pytest.fixture
 def user(db):
-    return User.objects.create_user(username="testuser", password="testpswd")
+    return User.objects.create_user(username="testuser", password="testpswd", email = "testuser@example.com")
 
 @pytest.fixture
 def category(db):
