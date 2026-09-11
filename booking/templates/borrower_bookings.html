@@ -27,14 +27,48 @@
               <p>{{ booking.start_date }} → {{ booking.end_date }}</p>
 
               {% if booking.status == 'pending' %}
-                <p>Status: <span class="badge bg-warning text-dark">Pending</span></p>
+                <p>Status: <span class="badge bg-warning text-dark">{{ booking.get_status_display }}</span></p>
               {% elif booking.status == 'approved' %}
-                <p>Status: <span class="badge bg-success">Approved</span></p>
+                <p>Status: <span class="badge bg-success">{{ booking.get_status_display }}</span></p>
               {% elif booking.status == 'declined' %}
-                <p>Status: <span class="badge bg-danger">Declined</span></p>
+                <p>Status: <span class="badge bg-danger">{{ booking.get_status_display }}</span></p>
+              {% elif booking.status == 'canceled' %}
+                <p>Status: <span class="badge bg-primary">{{ booking.get_status_display }}</span></p>
               {% endif %}
             </div>
           </div>
+
+            {% if booking.status == 'pending' %}
+            <div class="card-footer d-flex justify-content-center gap-2">
+              <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#cancelModal-{{ booking.id }}">
+              Cancel
+              </button>
+            </div>
+            {% endif %}
+            <div class="modal fade" id="cancelModal-{{ booking.id }}" tabindex="-1" aria-labelledby="cancelModalLabel-{{ booking.id }}" aria-hidden="true">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="cancelModalLabel-{{ booking.id }}">Confirm deletion</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+
+                  <div class="modal-body">
+                    Are you sure you want to cancel this booking? This action cannot be undone.
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+
+                      <form method="post" action="{% url 'booking-cancel' booking.id %}">
+                          {% csrf_token %}
+                          <button type="submit" class="btn btn-success">Yes, cancel booking</button>
+                      </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
         </div>
       </div>
       {% empty %}

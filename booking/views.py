@@ -84,3 +84,16 @@ class BookToolView(View):
                 'subtitle': 'Select dates and leave a comment',
                 'button_text': 'Send request',
             })
+
+class BookCancelView(View):
+    def post(self, request, pk):
+        if request.user.is_authenticated:
+            booking = get_object_or_404(Booking, pk=pk, borrower=request.user)
+            booking.status = 'canceled'
+            booking.is_seen_by_owner = False
+            booking.save()
+            messages.success(request, 'Booking canceled!')
+            return redirect('borrower_bookings')
+        else:
+            messages.error(request, 'You are not logged in')
+            return redirect('login')

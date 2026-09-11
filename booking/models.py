@@ -6,6 +6,7 @@ class BookingStatus(models.TextChoices):
     PENDING = 'pending', 'Pending'
     APPROVED = 'approved', 'Approved'
     DECLINED = 'declined', 'Declined'
+    CANCELED = 'canceled', 'Canceled'
 
 class Booking(models.Model):
     borrower = models.ForeignKey(User, on_delete=models.CASCADE, related_name='bookings_made')

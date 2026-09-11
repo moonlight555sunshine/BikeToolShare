@@ -28,10 +28,19 @@
                 {% if booking.comment %}
                 <p>Comment: {{ booking.comment }}</p>
                 {% endif %}
-              <p>Status: <strong>{{ booking.status }}</strong></p>
+              {% if booking.status == 'pending' %}
+                <p>Status: <span class="badge bg-warning text-dark">{{ booking.get_status_display }}</span></p>
+              {% elif booking.status == 'approved' %}
+                <p>Status: <span class="badge bg-success">{{ booking.get_status_display }}</span></p>
+              {% elif booking.status == 'declined' %}
+                <p>Status: <span class="badge bg-danger">{{ booking.get_status_display }}</span></p>
+              {% elif booking.status == 'canceled' %}
+                <p>Status: <span class="badge bg-primary">{{ booking.get_status_display }}</span></p>
+              {% endif %}
             </div>
           </div>
 
+          {% if booking.status == 'pending' %}
           <div class="card-footer d-flex justify-content-center gap-2">
             <form method="post" action="{% url 'owner_booking_action' booking.id %}">
               {% csrf_token %}
@@ -39,6 +48,7 @@
               <button type="submit" name="action" value="decline" class="btn btn-danger">Decline</button>
             </form>
           </div>
+          {% endif %}
         </div>
       </div>
       {% empty %}
