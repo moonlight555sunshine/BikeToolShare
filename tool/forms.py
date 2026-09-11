@@ -29,7 +29,7 @@ class ToolForm(forms.ModelForm):
         try:
             all_category = Category.objects.get(name__iexact='All Tools')
             if all_category not in categories:
-                raise forms.ValidationError('"All Tools" must be selected.')
+                self.add_error(None, '"All Tools" must be selected.')
         except Category.DoesNotExist:
-            raise forms.ValidationError('"All Tools" category does not exist. Please contact admin.')
+            self.add_error(None, '"All Tools" category does not exist. Please contact admin.')
         return categories

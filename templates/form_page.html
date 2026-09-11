@@ -27,11 +27,7 @@
                                 <img src="{{ picture }}" alt="Profile Picture" style="width: 150px; height: 150px; object-fit: cover; border-radius: 50%;">
                             </div>
                         {% endif %}
-<!--                        {{ form.as_p }}-->
-                        {% for field in form %}
-                            {{ field.label_tag }} <br>
-                            {{ field }} <br>
-                        {% endfor %}
+                        {{ form.as_p }}
                         <button type="submit" class="btn btn-secondary w-100 mt-3">{{ button_text }}</button>
                     </form>
 
