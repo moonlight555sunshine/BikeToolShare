@@ -1,3 +1,5 @@
+from operator import itemgetter
+
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views import View
 from django.contrib import messages
@@ -7,7 +9,7 @@ from booking.forms import BookingForm
 class OwnerBookingsView(View):
     def get(self, request):
         if request.user.is_authenticated:
-            bookings = Booking.objects.filter(tool__owner=request.user).select_related('tool', 'borrower')
+            bookings = Booking.objects.filter(tool__owner=request.user).select_related('tool', 'borrower').order_by('-updated_at')
             bookings.filter(is_seen_by_owner=False).update(is_seen_by_owner=True)
             return render(request, 'owner_bookings.html', {
                 'bookings': bookings,
@@ -37,7 +39,7 @@ class OwnerBookingsView(View):
 class BorrowerBookingsView(View):
     def get(self, request):
         if request.user.is_authenticated:
-            bookings = Booking.objects.filter(borrower=request.user).select_related('tool', 'tool__owner')
+            bookings = Booking.objects.filter(borrower=request.user).select_related('tool', 'tool__owner').order_by('-updated_at')
             bookings.filter(is_seen_by_borrower=False).update(is_seen_by_borrower=True)
             return render(request, 'borrower_bookings.html', {
                 'bookings': bookings,
