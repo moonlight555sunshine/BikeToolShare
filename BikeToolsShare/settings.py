@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'accounts',
     'booking',
     'phonenumber_field',
+    'chat.apps.ChatConfig',
 ]
 
 MIDDLEWARE = [
