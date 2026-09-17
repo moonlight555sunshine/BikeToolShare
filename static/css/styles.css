@@ -10824,3 +10824,111 @@ textarea.form-control-lg {
     display: none !important;
   }
 }
+/* =========================
+   Chat
+   ========================= */
+
+.chat-page {
+    min-height: 600px;
+    display: flex;
+    flex-direction: column;
+    background: #ffffff;
+}
+
+
+/* =========================
+   Messages
+   ========================= */
+
+#chat {
+    flex: 1;
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 30px 20px;
+    box-sizing: border-box;
+    overflow-y: auto;
+}
+
+
+/* Message */
+
+#chat .message {
+    display: block;
+    width: fit-content;
+    max-width: 70%;
+    padding: 10px 16px;
+    margin: 8px 0;
+    border-radius: 12px;
+    background: #f1f3f5;
+    color: #212529;
+    clear: both;
+    word-wrap: break-word;
+}
+
+
+/* Other person's message */
+
+#chat .message {
+    float: left;
+}
+
+
+/* My message */
+
+#chat .message.me {
+    float: right;
+    background: #dcefe2;
+    color: #2f6b3c;
+}
+
+
+/* Date */
+
+#chat .date {
+    display: block;
+    margin-top: 4px;
+    color: #888;
+    font-size: 11px;
+    font-style: italic;
+}
+
+
+/* =========================
+   Input
+   ========================= */
+
+#chat-input {
+    width: 100%;
+    padding: 15px 20px;
+    background: #ffffff;
+    border-top: 1px solid #dee2e6;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+
+/* Text input */
+
+#chat-message-input {
+    width: 100%;
+    max-width: 700px;
+    padding: 10px 14px;
+    border: 1px solid #ced4da;
+    border-radius: 8px;
+    outline: none;
+}
+
+
+/* Send button */
+
+#chat-message-submit {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    background: #212529;
+    color: #ffffff;
+    cursor: pointer;
+}
