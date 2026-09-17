@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
+    'daphne',
     'django.contrib.staticfiles',
     'tool',
     'accounts',
@@ -75,6 +76,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'BikeToolsShare.wsgi.application'
+ASGI_APPLICATION = 'BikeToolsShare.asgi.application'
 
 
 # Database
