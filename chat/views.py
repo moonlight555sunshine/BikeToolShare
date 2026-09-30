@@ -6,7 +6,7 @@ from booking.models import Booking
 @login_required
 def booking_chat_room(request, booking_id):
     booking = get_object_or_404(Booking, id=booking_id)
-    if request.user == booking.borrower:
+    if request.user == booking.borrower or request.user == booking.tool.owner:
         return render(request, 'chat/room.html', {'booking': booking})
     else:
         return HttpResponseForbidden()
