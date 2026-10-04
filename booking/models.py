@@ -25,4 +25,4 @@ class Booking(models.Model):
     comment = models.TextField(blank=True, default='')
 
     def __str__(self):
-        return f'{self.borrower.username} - {self.tool.name} ({self.status})'
+        return f'{self.borrower.username} from {self.tool.owner.username} - {self.tool.name} ({self.status})'

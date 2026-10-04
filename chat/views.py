@@ -7,6 +7,8 @@ from booking.models import Booking
 def booking_chat_room(request, booking_id):
     booking = get_object_or_404(Booking, id=booking_id)
     if request.user == booking.borrower or request.user == booking.tool.owner:
-        return render(request, 'chat/room.html', {'booking': booking})
+        latest_messages = booking.chat_messages.select_related('user').order_by('-sent_on')
+        latest_messages = reversed(latest_messages)
+        return render(request,'chat/room.html', {'booking': booking, 'latest_messages' : latest_messages })
     else:
         return HttpResponseForbidden()
