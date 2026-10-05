@@ -30,6 +30,9 @@
                 <p>Status: <span class="badge bg-warning text-dark">{{ booking.get_status_display }}</span></p>
               {% elif booking.status == 'approved' %}
                 <p>Status: <span class="badge bg-success">{{ booking.get_status_display }}</span></p>
+                <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                    <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="{% url 'chat:booking_chat_room' booking.id %}">chat</a></div>
+                </div>
               {% elif booking.status == 'declined' %}
                 <p>Status: <span class="badge bg-danger">{{ booking.get_status_display }}</span></p>
               {% elif booking.status == 'canceled' %}
@@ -38,7 +41,7 @@
             </div>
           </div>
 
-            {% if booking.status == 'pending' %}
+            {% if booking.status == 'pending'%}
             <div class="card-footer d-flex justify-content-center gap-2">
               <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#cancelModal-{{ booking.id }}">
               Cancel
