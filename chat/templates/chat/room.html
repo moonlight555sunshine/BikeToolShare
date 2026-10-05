@@ -1,4 +1,10 @@
 {% extends 'base.html' %}
+{% load static %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'chat/css/chat.css' %}">
+{% endblock %}
+
 
 {% block title %}Chat room for "{{ booking.tool.name }}"{% endblock %}
 
