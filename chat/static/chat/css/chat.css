@@ -105,3 +105,309 @@
     color: #ffffff;
     cursor: pointer;
 }
+
+/* =========================
+   Chat list
+   ========================= */
+
+.chat-list-page {
+    width: 100%;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 40px 20px;
+    box-sizing: border-box;
+}
+
+
+/* Header */
+
+.chat-list-header {
+    margin-bottom: 28px;
+}
+
+.chat-list-header h1 {
+    margin: 0 0 6px;
+    font-size: 32px;
+    font-weight: 600;
+    color: #212529;
+}
+
+.chat-list-header p {
+    margin: 0;
+    font-size: 15px;
+    color: #6c757d;
+}
+
+
+/* List */
+
+.chat-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+
+/* =========================
+   Chat item
+   ========================= */
+
+.chat-item {
+    display: grid;
+
+    /*
+     * Левая часть занимает всё свободное место.
+     * Правая имеет свою ширину.
+     */
+    grid-template-columns: minmax(0, 1fr) minmax(300px, 45%);
+
+    align-items: center;
+    gap: 30px;
+
+    width: 100%;
+    padding: 18px 20px;
+    box-sizing: border-box;
+
+    background: #ffffff;
+    border: 1px solid #e5e5e5;
+    border-radius: 10px;
+
+    color: inherit;
+    text-decoration: none;
+
+    transition:
+        background-color 0.15s ease,
+        border-color 0.15s ease,
+        transform 0.15s ease;
+}
+
+.chat-item:hover {
+    background-color: #f8f9fa;
+    border-color: #d5d5d5;
+    transform: translateY(-1px);
+}
+
+
+/* =========================
+   LEFT SIDE
+   ========================= */
+
+.chat-item-main {
+    min-width: 0;
+}
+
+
+/* Tool + owner */
+
+.chat-item-title {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+
+    min-width: 0;
+}
+
+.chat-item-title h2 {
+    margin: 0;
+
+    min-width: 0;
+
+    font-size: 18px;
+    font-weight: 600;
+    color: #212529;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.chat-item-owner {
+    flex-shrink: 0;
+
+    font-size: 14px;
+    color: #6c757d;
+}
+
+
+/* Booking dates */
+
+.chat-item-booking {
+    margin-top: 6px;
+
+    font-size: 13px;
+    color: #888;
+}
+
+
+/* =========================
+   RIGHT SIDE
+   ========================= */
+
+.chat-item-right {
+    display: grid;
+
+    /*
+     * message | date | arrow
+     */
+    grid-template-columns: minmax(0, 1fr) auto auto;
+
+    align-items: center;
+    gap: 15px;
+
+    min-width: 0;
+}
+
+
+/* Message */
+
+.chat-item-message {
+    display: flex;
+    align-items: baseline;
+
+    min-width: 0;
+
+    font-size: 14px;
+}
+
+.chat-item-message-user {
+    flex-shrink: 0;
+
+    margin-right: 6px;
+
+    font-weight: 500;
+    color: #495057;
+}
+
+.chat-item-message-text {
+    min-width: 0;
+
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+
+    color: #777;
+}
+
+
+/* Date */
+
+.chat-item-date {
+    flex-shrink: 0;
+
+    font-size: 12px;
+    color: #999;
+
+    white-space: nowrap;
+}
+
+
+/* Arrow */
+
+.chat-item-arrow {
+    flex-shrink: 0;
+
+    font-size: 22px;
+    color: #999;
+
+    transition:
+        transform 0.15s ease,
+        color 0.15s ease;
+}
+
+.chat-item:hover .chat-item-arrow {
+    transform: translateX(3px);
+    color: #555;
+}
+
+
+/* =========================
+   Empty state
+   ========================= */
+
+.chat-empty {
+    padding: 60px 20px;
+
+    text-align: center;
+
+    background: #f8f9fa;
+    border-radius: 10px;
+}
+
+.chat-empty h2 {
+    margin: 0 0 10px;
+
+    font-size: 22px;
+    font-weight: 600;
+}
+
+.chat-empty p {
+    margin: 0;
+
+    color: #6c757d;
+}
+
+
+/* =========================
+   Mobile
+   ========================= */
+
+@media (max-width: 800px) {
+
+    .chat-list-page {
+        padding: 25px 15px;
+    }
+
+    .chat-item {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+
+    .chat-item-right {
+        grid-template-columns: minmax(0, 1fr) auto auto;
+    }
+
+}
+
+
+@media (max-width: 500px) {
+
+    .chat-list-header h1 {
+        font-size: 26px;
+    }
+
+    .chat-item {
+        padding: 15px;
+    }
+
+    .chat-item-title {
+        display: block;
+    }
+
+    .chat-item-owner {
+        margin-left: 6px;
+    }
+
+    .chat-item-right {
+        grid-template-columns: minmax(0, 1fr) auto;
+        gap: 10px;
+    }
+
+    .chat-item-arrow {
+        grid-column: 2;
+    }
+}
+/* =========================
+   Chat sections
+   ========================= */
+
+.chat-section {
+    margin-bottom: 40px;
+}
+
+.chat-section-title {
+    margin: 0 0 15px;
+
+    font-size: 22px;
+    font-weight: 600;
+    color: #212529;
+}

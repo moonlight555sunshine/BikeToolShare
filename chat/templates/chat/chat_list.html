@@ -1,0 +1,133 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'chat/css/chat.css' %}">
+{% endblock %}
+{%  block content %}
+
+<header class="bg-dark py-5">
+  <div class="container px-4 px-lg-5 my-5">
+    <div class="text-center text-white">
+      <h1 class="display-4 fw-bolder">{{ title }}</h1>
+      <p class="lead fw-normal text-white-50 mb-0">{{ subtitle }}</p>
+    </div>
+  </div>
+</header>
+
+<div class="chat-list-page">
+
+     {% if my_tools_chats %}
+        <section class="chat-section">
+            <h2 class="chat-section-title">
+                My tools
+            </h2>
+        <div class="chat-list">
+            {% for booking in my_tools_chats %}
+                <a href="{% url 'chat:booking_chat_room' booking.id %}" class="chat-item">
+                    <div class="chat-item-main">
+                        <!-- Tool + owner -->
+                        <div class="chat-item-title">
+                            <h2>{{ booking.tool.name }}</h2>
+                        </div>
+                        <!-- Booking dates -->
+                        <div class="chat-item-booking">
+                            Reserved:
+                            {{ booking.start_date|date:"d.m.Y" }}
+                            –
+                            {{ booking.end_date|date:"d.m.Y" }}
+                        </div>
+                    </div>
+                    <div class="chat-item-right">
+                        <div class="chat-item-message-block">
+
+                            <time class="chat-item-date">
+                                {{ booking.last_message_at|date:"d.m.Y H:i" }}
+                            </time>
+
+                            <div class="chat-item-message">
+
+                                <span class="chat-item-message-user">
+                                    {{ booking.last_message_user }}:
+                                </span>
+
+                                <span class="chat-item-message-text">
+                                    {{ booking.last_message_text }}
+                                </span>
+
+                            </div>
+                        </div>
+                        <span class="chat-item-arrow">
+                            →
+                        </span>
+                    </div>
+                </a>
+            {% endfor %}
+        </div>
+
+        </section>
+    {% endif %}
+
+    {% if rented_tools_chats %}
+        <section class="chat-section">
+            <h2 class="chat-section-title">
+                Rented tools
+            </h2>
+        <div class="chat-list">
+        {% for booking in rented_tools_chats %}
+            <a href="{% url 'chat:booking_chat_room' booking.id %}" class="chat-item">
+                <div class="chat-item-main">
+                    <!-- Tool + owner -->
+                    <div class="chat-item-title">
+                        <h2>{{ booking.tool.name }}</h2>
+                        <span class="chat-item-owner">
+                            (owner: {{ booking.tool.owner.username }})
+                        </span>
+                    </div>
+                    <!-- Booking dates -->
+                    <div class="chat-item-booking">
+                        Reserved:
+                        {{ booking.start_date|date:"d.m.Y" }}
+                        –
+                        {{ booking.end_date|date:"d.m.Y" }}
+                    </div>
+                </div>
+                <div class="chat-item-right">
+                    <div class="chat-item-message-block">
+
+                        <time class="chat-item-date">
+                            {{ booking.last_message_at|date:"d.m.Y H:i" }}
+                        </time>
+
+                        <div class="chat-item-message">
+
+                            <span class="chat-item-message-user">
+                                {{ booking.last_message_user }}:
+                            </span>
+
+                            <span class="chat-item-message-text">
+                                {{ booking.last_message_text }}
+                            </span>
+
+                        </div>
+                    </div>
+                    <span class="chat-item-arrow">
+                        →
+                    </span>
+                </div>
+            </a>
+        {% endfor %}
+        </div>
+
+        </section>
+    {% endif %}
+
+    {% if not my_tools_chats and not rented_tools_chats %}
+        <div class="chat-empty">
+            <h2>No chats yet</h2>
+            <p>You don't have any conversations yet.</p>
+        </div>
+    {% endif %}
+</div>
+
+{% endblock %}
